@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1220">
+    <meta name="description" content="能繁母猪存栏跟踪：猪价周期最重要的领先指标，产能去化领先价格 10-12 个月。">
+    <title>产能跟踪 · PIGWATCH 猪价周期研究终端</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="terminal.css">
+</head>
+<body>
+    <main class="home-shell">
+        <nav class="top-nav">
+            <a class="brand" href="index.html">
+                <span class="brand-mark" aria-hidden="true">🐷</span>
+                <span class="brand-copy">
+                    <strong>PIGWATCH</strong>
+                    <small>产能跟踪</small>
+                </span>
+            </a>
+            <div class="product-nav" role="navigation">
+                <a href="terminal.html">周期终端</a>
+                <a href="terminal.html#ratio">猪粮比</a>
+                <a href="terminal.html#curve">期限结构</a>
+                <a href="index.html">← 返回首页</a>
+            </div>
+        </nav>
+
+        <section class="terminal-overview">
+            <p class="eyebrow">Capacity Tracker</p>
+            <h1>能繁母猪存栏：周期的"慢变量"</h1>
+            <p class="terminal-note">猪价由产能决定，产能由十个月前的能繁母猪决定。这个页面只跟踪一个数字：农业农村部口径的能繁母猪存栏，以及它相对正常保有量目标的位置。</p>
+            <div class="terminal-stats" id="capacity-stats"></div>
+        </section>
+
+        <section class="chart-block">
+            <div class="chart-block-head">
+                <h2>能繁母猪存栏（月度，万头）</h2>
+                <span class="chart-meta" id="capacity-meta"></span>
+            </div>
+            <div id="chart-capacity" class="chart-box"></div>
+        </section>
+
+        <section class="chart-block">
+            <div class="chart-block-head">
+                <h2>产能 → 价格的传导时间轴</h2>
+                <span class="chart-meta">生理时钟决定的刚性领先关系</span>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>T 月</strong>
+                    <p>能繁母猪存栏数据公布（农业农村部，月中公布上月值）。读数低于正常保有量目标，意味着 10-12 个月后的商品猪供给收缩。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>T + 4 个月</strong>
+                    <p>配种到分娩。母猪妊娠约 114 天，这期间存栏读数的变化决定仔猪出生量，是传导链上第一个可验证节点。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>T + 6-10 个月</strong>
+                    <p>保育与育肥。仔猪断奶后经过约 5-6 个月育肥出栏，体重与成活率决定实际商品猪供应弹性。</p>
+                </div>
+                <div class="timeline-item">
+                    <strong>T + 10-12 个月</strong>
+                    <p>出栏兑现。供给收缩（或过剩）传导到猪价。历史规律：产能去化连续 6 个月以上、累计幅度超过 5%，猪价反转概率显著上升。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="method-block">
+            <h2>口径与维护说明</h2>
+            <ul>
+                <li>数据源：农业农村部生猪存栏监测的公开报道口径，<b>人工维护</b>，非自动抓取。</li>
+                <li>正常保有量目标：2024 年 3 月修订后为 <b>3900 万头</b>（此前为 4100 万头），绿色虚线为现行目标线。</li>
+                <li>存栏低于目标 ≠ 价格立即上涨：需要"去化持续时间和深度"两个条件共振，见 Research Labs #002。</li>
+                <li>2025 年以后的月度值待补录；如果你能拿到涌益咨询 / 钢联 / 农业农村部原始月报，替换 <code>data/capacity.json</code> 即可，页面自动重绘。</li>
+            </ul>
+        </section>
+
+        <footer class="home-footer">
+            <p>数据截至 <span id="footer-capacity-asof">--</span> · 人工维护 · 个人研究用途，不构成投资建议</p>
+        </footer>
+    </main>
+    <script src="assets/echarts.min.js"></script>
+    <script src="capacity.js"></script>
+</body>
+</html>

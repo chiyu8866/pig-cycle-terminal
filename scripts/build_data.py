@@ -48,6 +48,43 @@ def percentile_rank(series: pd.Series) -> float:
     return float((s <= s.iloc[-1]).mean() * 100)
 
 
+def term_structure() -> list:
+    """生猪各合约最新价 → 期限结构。失败返回空列表。"""
+    try:
+        rt = ak.futures_zh_realtime(symbol="生猪")
+        rows = []
+        for _, r in rt.iterrows():
+            sym = str(r["symbol"])
+            if not sym.startswith("LH") or sym == "LH0":
+                continue
+            price = float(r.get("close") or r.get("trade") or 0)
+            if price <= 0:
+                continue
+            rows.append({"contract": sym, "price": price})
+        return sorted(rows, key=lambda x: x["contract"])
+    except Exception as e:
+        print(f"[warn] term structure fetch failed: {e}")
+        return []
+
+
+def seasonality(daily: pd.DataFrame) -> dict:
+    """生猪期货上市以来，各日历月份的平均涨跌幅与胜率（样本仅5年，仅作参考）。"""
+    d = daily.copy()
+    d["ret"] = d["lh_close"].pct_change()
+    g = d.dropna(subset=["ret"]).groupby(d["date"].dt.month)["ret"]
+    avg = g.mean() * 100
+    win = g.apply(lambda x: (x > 0).mean() * 100)
+    months = []
+    for m in range(1, 13):
+        months.append({
+            "month": f"{m}月",
+            "avg_chg": round(float(avg.get(m, float("nan"))), 2),
+            "win_rate": round(float(win.get(m, float("nan"))), 1),
+            "n": int(g.count().get(m, 0)),
+        })
+    return {"months": months, "note": "样本为生猪期货2021年上市以来约5年数据，月度统计仅作参考"}
+
+
 def main() -> int:
     frames = []
     for key, (sym, _) in SYMBOLS.items():
@@ -105,6 +142,18 @@ def main() -> int:
     if not ytd_base.empty:
         stats["feed_chg_ytd"] = round(float((last["feed_idx"] / ytd_base["feed_idx"].iloc[0] - 1) * 100), 2)
 
+    # 波动率：20日年化
+    ret = df["lh_close"].pct_change().dropna()
+    vol20 = float(ret.tail(20).std() * (252 ** 0.5) * 100) if len(ret) >= 20 else float("nan")
+    # 最大回撤（近一年）
+    tail250 = df["lh_close"].tail(250)
+    dd = (tail250 / tail250.cummax() - 1).min() * 100
+    stats["vol20_ann"] = round(vol20, 1)
+    stats["max_dd_1y"] = round(float(dd), 1)
+    stats["lh_chg_ytd"] = None
+    if not ytd_base.empty:
+        stats["lh_chg_ytd"] = round(float((last["lh_close"] / ytd_base["lh_close"].iloc[0] - 1) * 100), 2)
+
     note = (
         f"截至 {stats['asof']}，生猪主力收盘 {stats['lh_close']:.0f} 元/吨，"
         f"近20日{'上涨' if stats['lh_chg_20d']>=0 else '下跌'} {abs(stats['lh_chg_20d'])}%，"
@@ -121,6 +170,8 @@ def main() -> int:
         "stats": stats,
         "note": note,
         "chart": chart,
+        "curve": term_structure(),
+        "seasonality": seasonality(df),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")

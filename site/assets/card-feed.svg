@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 576">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16233f"/><stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="ear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="576" fill="url(#bg3)"/>
+  <g transform="translate(300,60)">
+    <path d="M212 40 L236 130 L188 130 Z" fill="url(#ear)"/>
+    <path d="M212 60 L224 120 L200 120 Z" fill="#0b1220" opacity=".35"/>
+    <path d="M150 130 Q212 90 274 130 L274 440 Q212 470 150 440 Z" fill="url(#ear)"/>
+    <g fill="#0b1220" opacity=".3">
+      <ellipse cx="212" cy="180" rx="14" ry="34"/><ellipse cx="212" cy="262" rx="14" ry="34"/>
+      <ellipse cx="176" cy="221" rx="14" ry="34"/><ellipse cx="248" cy="221" rx="14" ry="34"/>
+    </g>
+    <path d="M150 440 Q212 470 274 440 L274 452 Q212 484 150 452 Z" fill="#4da3ff" opacity=".55"/>
+  </g>
+  <g transform="translate(620,300)" stroke="#34d399" stroke-width="5" fill="none">
+    <ellipse cx="0" cy="0" rx="60" ry="130"/>
+    <path d="M0 -130 V130 M-60 0 H60 M-42 -84 Q0 -60 42 -84 M-46 70 Q0 46 46 70" stroke-opacity=".7"/>
+  </g>
+  <text x="48" y="80" fill="#93a4c4" font-family="monospace" font-size="26">FEED COST · 玉米×豆粕</text>
+  <text x="700" y="500" fill="#5c6d8f" font-family="monospace" font-size="22">C × M</text>
+</svg>

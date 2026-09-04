@@ -108,5 +108,67 @@
     });
     $("feed-meta").textContent = `当前指数 ${fmt(s.feed_idx)} · 年初至今 ${s.feed_chg_ytd === null ? "--" : fmt(s.feed_chg_ytd) + "%"}`;
 
+    // 图4：期限结构
+    const curveEl = $("chart-curve");
+    if (curveEl && d.curve && d.curve.length) {
+        const chartCurve = echarts.init(curveEl);
+        const near = d.curve[0].price;
+        const labels = d.curve.map(r => r.contract.replace("LH", ""));
+        const chgs = d.curve.map(r => +(((r.price / near) - 1) * 100).toFixed(2));
+        const shape = chgs[chs.length - 1] > 1 ? "远月升水（Contango）" : chgs[chs.length - 1] < -1 ? "远月贴水（Backwardation）" : "近平水";
+        chartCurve.setOption({
+            tooltip: { ...tooltipBase, formatter: (ps) => {
+                const i = ps[0].dataIndex;
+                return `<b>${d.curve[i].contract}</b><br/>价格：${d.curve[i].price} 元/吨<br/>较最低月份：${chgs[i] >= 0 ? "+" : ""}${chgs[i]}%`;
+            } },
+            grid: { left: 60, right: 60, top: 40, bottom: 40 },
+            xAxis: { type: "category", data: labels, name: "合约月份", nameTextStyle: { color: C.dim }, ...baseAxis },
+            yAxis: [
+                { type: "value", name: "元/吨", nameTextStyle: { color: C.dim }, scale: true, ...baseAxis, axisLine: { show: false } },
+                { type: "value", name: "较最低月%", nameTextStyle: { color: C.dim }, scale: true, ...baseAxis, axisLine: { show: false }, splitLine: { show: false } },
+            ],
+            series: [
+                { name: "合约价", type: "bar", data: d.curve.map(r => r.price), barWidth: "45%",
+                  itemStyle: { borderRadius: [6, 6, 0, 0], color: { type: "linear", x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: "#4da3ff" }, { offset: 1, color: "rgba(77,163,255,0.25)" }] } } },
+                { name: "较最低月份 %", type: "line", yAxisIndex: 1, data: chgs, showSymbol: true, symbolSize: 7,
+                  lineStyle: { width: 2, color: C.amber }, itemStyle: { color: C.amber } },
+            ],
+        });
+        $("curve-meta").textContent = `${shape} · ${d.curve.length} 个挂牌合约 · ${s.asof} 收盘`;
+        window.addEventListener("resize", () => chartCurve.resize());
+    } else if (curveEl) {
+        $("curve-meta").textContent = "非交易时段数据不可用";
+    }
+
+    // 图5：季节规律
+    const seasonEl = $("chart-season");
+    if (seasonEl && d.seasonality && d.seasonality.months) {
+        const chartSeason = echarts.init(seasonEl);
+        const months = d.seasonality.months;
+        chartSeason.setOption({
+            tooltip: { ...tooltipBase, formatter: (ps) => {
+                const i = ps[0].dataIndex;
+                const m = months[i];
+                return `<b>${m.month}</b><br/>平均涨跌：${m.avg_chg >= 0 ? "+" : ""}${m.avg_chg}%<br/>上涨胜率：${m.win_rate}%（样本 ${m.n} 年）`;
+            } },
+            grid: { left: 50, right: 50, top: 40, bottom: 40 },
+            xAxis: { type: "category", data: months.map(m => m.month), ...baseAxis },
+            yAxis: [
+                { type: "value", name: "平均涨跌%", nameTextStyle: { color: C.dim }, scale: true, ...baseAxis, axisLine: { show: false } },
+                { type: "value", name: "胜率%", max: 100, nameTextStyle: { color: C.dim }, ...baseAxis, axisLine: { show: false }, splitLine: { show: false } },
+            ],
+            series: [
+                { name: "平均涨跌", type: "bar", barWidth: "50%", data: months.map(m => m.avg_chg),
+                  itemStyle: { borderRadius: [6, 6, 0, 0], color: (p) => p.value >= 0 ? "rgba(52,211,153,0.75)" : "rgba(248,113,113,0.75)" } },
+                { name: "胜率", type: "line", yAxisIndex: 1, data: months.map(m => m.win_rate),
+                  showSymbol: true, symbolSize: 7, lineStyle: { width: 2, color: C.amber }, itemStyle: { color: C.amber } },
+            ],
+        });
+        $("season-meta").textContent = d.seasonality.note;
+        window.addEventListener("resize", () => chartSeason.resize());
+    } else if (seasonEl) {
+        $("season-meta").textContent = "数据不可用";
+    }
+
     window.addEventListener("resize", () => { chartCycle.resize(); chartRatio.resize(); chartFeed.resize(); });
 })();

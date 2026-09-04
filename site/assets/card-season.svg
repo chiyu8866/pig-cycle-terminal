@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 576">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16233f"/><stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="576" fill="url(#bg5)"/>
+  <g font-family="monospace" font-size="20" fill="#5c6d8f" text-anchor="middle">
+    <g><rect x="70"  y="220" width="58" height="240" rx="6" fill="#34d399" opacity=".8"/><text x="99"  y="490">1月</text></g>
+    <g><rect x="145" y="260" width="58" height="200" rx="6" fill="#34d399" opacity=".6"/><text x="174" y="490">2月</text></g>
+    <g><rect x="220" y="300" width="58" height="160" rx="6" fill="#f87171" opacity=".7"/><text x="249" y="490">3月</text></g>
+    <g><rect x="295" y="180" width="58" height="280" rx="6" fill="#34d399" opacity=".9"/><text x="324" y="490">4月</text></g>
+    <g><rect x="370" y="240" width="58" height="220" rx="6" fill="#34d399" opacity=".7"/><text x="399" y="490">5月</text></g>
+    <g><rect x="445" y="320" width="58" height="140" rx="6" fill="#f87171" opacity=".6"/><text x="474" y="490">6月</text></g>
+    <g><rect x="520" y="200" width="58" height="260" rx="6" fill="#34d399" opacity=".8"/><text x="549" y="490">7月</text></g>
+    <g><rect x="595" y="230" width="58" height="230" rx="6" fill="#34d399" opacity=".7"/><text x="624" y="490">8月</text></g>
+    <g><rect x="670" y="280" width="58" height="180" rx="6" fill="#fbbf24" opacity=".8"/><text x="699" y="490">9月</text></g>
+    <g><rect x="745" y="250" width="58" height="210" rx="6" fill="#fbbf24" opacity=".7"/><text x="774" y="490">10月</text></g>
+    <g><rect x="820" y="310" width="58" height="150" rx="6" fill="#f87171" opacity=".8"/><text x="849" y="490">11月</text></g>
+    <g><rect x="895" y="270" width="58" height="190" rx="6" fill="#34d399" opacity=".6"/><text x="924" y="490">12月</text></g>
+  </g>
+  <path d="M60 220 H964" stroke="#94b2e2" stroke-opacity=".2" stroke-dasharray="6 8"/>
+  <text x="48" y="80" fill="#93a4c4" font-family="monospace" font-size="26">SEASONALITY · 月度规律</text>
+</svg>

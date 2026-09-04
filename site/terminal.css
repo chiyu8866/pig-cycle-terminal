@@ -33,7 +33,21 @@
 .method-block ul { padding-left: 20px; color: var(--text-dim); font-size: 14px; }
 .method-block li { margin-bottom: 8px; }
 
+/* ---------- 传导时间轴 ---------- */
+.timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.timeline-item {
+    border: 1px solid var(--line); border-radius: 12px;
+    background: var(--bg-soft); padding: 18px;
+}
+.timeline-item strong {
+    display: block; font-family: var(--mono); color: var(--accent);
+    font-size: 15px; margin-bottom: 8px;
+}
+.timeline-item p { font-size: 13px; color: var(--text-dim); }
+.timeline-item:first-child { border-color: rgba(77, 163, 255, 0.45); }
+
 @media (max-width: 700px) {
     .chart-box { height: 300px; }
     .terminal-overview h1 { font-size: 24px; }
+    .timeline { grid-template-columns: 1fr; }
 }

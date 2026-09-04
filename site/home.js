@@ -44,5 +44,12 @@
     $("sig-feed-value").textContent = fmt(s.feed_idx);
     $("sig-feed-chg").innerHTML = chgHtml(s.feed_chg_ytd);
 
+    const volEl = $("sig-vol-value");
+    if (volEl) {
+        $("sig-vol-updated").textContent = s.asof;
+        volEl.textContent = fmt(s.vol20_ann, 1) + "%";
+        $("sig-dd").textContent = fmt(s.max_dd_1y, 1) + "%";
+    }
+
     $("footer-asof").textContent = `${s.asof}（生成于 ${d.generated_at}）`;
 })();

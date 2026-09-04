@@ -1,15 +1,26 @@
 /* PIGWATCH service worker：缓存静态资源，支持离线查看 */
-const CACHE = "pigwatch-v1";
+const CACHE = "pigwatch-v2";
 const ASSETS = [
     "./",
     "./index.html",
     "./terminal.html",
+    "./capacity.html",
+    "./notes.html",
     "./home.css",
     "./terminal.css",
     "./home.js",
     "./terminal.js",
+    "./capacity.js",
+    "./pwa-install.js",
     "./assets/echarts.min.js",
+    "./assets/card-cycle.svg",
+    "./assets/card-capacity.svg",
+    "./assets/card-feed.svg",
+    "./assets/card-curve.svg",
+    "./assets/card-season.svg",
+    "./assets/card-note.svg",
     "./data/terminal.json",
+    "./data/capacity.json",
 ];
 
 self.addEventListener("install", (e) => {
