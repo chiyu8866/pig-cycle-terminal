@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1220">
+    <title>周期终端 · PIGWATCH 猪价周期研究终端</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="terminal.css">
+</head>
+<body>
+    <main class="home-shell">
+        <nav class="top-nav">
+            <a class="brand" href="index.html">
+                <span class="brand-mark" aria-hidden="true">🐷</span>
+                <span class="brand-copy">
+                    <strong>PIGWATCH</strong>
+                    <small>周期终端</small>
+                </span>
+            </a>
+            <div class="product-nav" role="navigation">
+                <a href="#cycle">生猪价格</a>
+                <a href="#ratio">猪粮比</a>
+                <a href="#feed">饲料成本</a>
+                <a href="index.html">← 返回首页</a>
+            </div>
+        </nav>
+
+        <section class="terminal-overview" aria-live="polite">
+            <p class="eyebrow">Terminal Overview</p>
+            <h1 id="terminal-title">周期总览</h1>
+            <p id="terminal-note" class="terminal-note">正在读取数据…</p>
+            <div class="terminal-stats" id="terminal-stats"></div>
+        </section>
+
+        <section class="chart-block" id="cycle">
+            <div class="chart-block-head">
+                <h2>生猪主力连续 · 价格周期</h2>
+                <span class="chart-meta" id="cycle-meta"></span>
+            </div>
+            <div id="chart-cycle" class="chart-box"></div>
+        </section>
+
+        <section class="chart-block" id="ratio">
+            <div class="chart-block-head">
+                <h2>猪粮比 · 盈亏信号（期货近似口径）</h2>
+                <span class="chart-meta">预警带：5:1 一级下跌预警 · 6:1 盈亏线 · 9:1 上涨预警</span>
+            </div>
+            <div id="chart-ratio" class="chart-box"></div>
+        </section>
+
+        <section class="chart-block" id="feed">
+            <div class="chart-block-head">
+                <h2>饲料成本指数（玉米60% + 豆粕40%，基期=生猪期货上市日）</h2>
+                <span class="chart-meta" id="feed-meta"></span>
+            </div>
+            <div id="chart-feed" class="chart-box"></div>
+        </section>
+
+        <section class="method-block">
+            <h2>方法论与口径</h2>
+            <ul>
+                <li>价格：生猪（LH）、玉米（C）、豆粕（M）主力连续期货日线，来源新浪财经，经 akshare 抓取。</li>
+                <li>猪粮比 = 生猪主力收盘价 ÷ 玉米主力收盘价，为<b>期货近似口径</b>；发改委官方口径为生猪出厂价 ÷ 玉米批发价，两者水平有差异，方向一致。</li>
+                <li>预警带参考发改委《完善政府猪肉储备调节机制 做好猪肉市场保供稳价工作预案》：猪粮比 6:1 为盈亏平衡，5:1 以下进入过度下跌一级预警，9:1 以上为过度上涨预警。</li>
+                <li>图表按周频抽样展示；分位为近 1000 个交易日（约4年）百分位。</li>
+                <li>每日收盘后由脚本自动更新，页面不依赖任何后端服务。</li>
+            </ul>
+        </section>
+
+        <footer class="home-footer">
+            <p>数据截至 <span id="footer-asof">--</span> · 个人研究用途，不构成投资建议</p>
+        </footer>
+    </main>
+    <script src="assets/echarts.min.js"></script>
+    <script src="terminal.js"></script>
+    <script>
+        if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+            navigator.serviceWorker.register("sw.js");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1220">
+    <meta name="description" content="PIGWATCH 是猪价周期研究终端，连接生猪期货、猪粮比、饲料成本与产能线索，跟踪猪周期的位置与边际变化。">
+    <title>PIGWATCH 猪价周期研究终端</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <main class="home-shell">
+        <header class="home-hero">
+            <nav class="top-nav">
+                <a class="brand" href="index.html">
+                    <span class="brand-mark" aria-hidden="true">🐷</span>
+                    <span class="brand-copy">
+                        <strong>PIGWATCH</strong>
+                        <small>猪价周期研究终端</small>
+                    </span>
+                </a>
+                <div class="product-nav" role="navigation">
+                    <a href="terminal.html">周期终端 <span>旗舰</span></a>
+                    <a href="terminal.html#ratio">猪粮比 <span>盈亏</span></a>
+                    <a href="terminal.html#feed">饲料成本 <span>成本</span></a>
+                    <a href="#research-note">Research Note <span>研究</span></a>
+                </div>
+            </nav>
+
+            <section class="commodity-duo" aria-live="polite">
+                <article class="commodity-panel commodity-panel--pig">
+                    <div class="commodity-panel-copy">
+                        <span class="commodity-panel-kicker">生猪期货 · 主力连续</span>
+                        <h2>生猪价格</h2>
+                        <strong id="hero-lh-price">读取中</strong>
+                        <p id="hero-lh-note">正在汇总盘面数据。</p>
+                        <div class="commodity-panel-actions">
+                            <a class="commodity-panel-primary" href="terminal.html">进入周期终端</a>
+                            <a class="commodity-panel-secondary" href="terminal.html#cycle">查看周期图 ›</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="commodity-panel commodity-panel--ratio">
+                    <div class="commodity-panel-copy">
+                        <span class="commodity-panel-kicker">猪粮比 · 盈亏信号</span>
+                        <h2>猪粮比</h2>
+                        <strong id="hero-ratio">读取中</strong>
+                        <p id="hero-ratio-note">正在计算猪粮比。</p>
+                        <div class="commodity-panel-actions">
+                            <a class="commodity-panel-primary" href="terminal.html#ratio">盈亏区间</a>
+                            <a class="commodity-panel-secondary" href="terminal.html#feed">饲料成本 ›</a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="climate-story-panel">
+                <div class="climate-story-copy">
+                    <h2>猪周期：赔率藏在亏损深处</h2>
+                    <p>生猪是A股周期属性最强的农产品之一：能繁母猪存栏领先猪价约 10-12 个月，亏损驱动去产能，去产能驱动价格反转。2021 年生猪期货上市以来，盘面完整记录了上一轮深亏与 2024 年的反转；当前猪粮比再度跌入亏损区，市场又在争论：这一次是磨底，还是新一轮周期起点？</p>
+                    <p>本终端用期货口径的猪粮比、饲料成本与价格分位，每日回答一个问题：周期走到哪一步了。所有数据公开可验证，方法论透明，观点与数据分开呈现。</p>
+                    <span>数据口径：生猪/玉米/豆粕主力连续期货（新浪财经），猪粮比为期货近似口径，与发改委现货口径存在差异。</span>
+                </div>
+            </section>
+        </header>
+
+        <section class="research-snapshot-module">
+            <div class="research-snapshot-row">
+                <section class="section-block ai-preview" id="research-note">
+                    <div>
+                        <p class="eyebrow">Research Note</p>
+                        <h2>边际情况</h2>
+                        <p id="home-ai-summary">正在读取最新边际情况。</p>
+                    </div>
+                    <a href="terminal.html" class="primary-btn">查看完整终端</a>
+                </section>
+
+                <aside class="signal-board">
+                    <div class="signal-board-head">
+                        <span>核心信号</span>
+                        <strong>价格 · 盈亏 · 成本</strong>
+                    </div>
+                    <div class="signal-list">
+                        <a class="signal-card" href="terminal.html#cycle">
+                            <div class="signal-card-head"><span>生猪主力</span><em id="sig-lh-updated">--</em></div>
+                            <strong id="sig-lh-value">--</strong>
+                            <p>近4年分位 <b id="sig-lh-pctile">--</b> · 20日 <b id="sig-lh-chg">--</b></p>
+                        </a>
+                        <a class="signal-card" href="terminal.html#ratio">
+                            <div class="signal-card-head"><span>猪粮比</span><em id="sig-ratio-updated">--</em></div>
+                            <strong id="sig-ratio-value">--</strong>
+                            <p id="sig-ratio-band">--</p>
+                        </a>
+                        <a class="signal-card" href="terminal.html#feed">
+                            <div class="signal-card-head"><span>饲料成本指数</span><em id="sig-feed-updated">--</em></div>
+                            <strong id="sig-feed-value">--</strong>
+                            <p>年初至今 <b id="sig-feed-chg">--</b></p>
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="function-showcase">
+            <div class="function-showcase-head">
+                <p class="eyebrow">Function Map</p>
+                <h2>把每条周期线索，放进自己的观察窗口。</h2>
+            </div>
+            <div class="function-rail">
+                <a class="function-card function-card--dark" href="terminal.html#cycle">
+                    <div class="function-card-copy">
+                        <span>周期定位</span>
+                        <h3>生猪价格周期图</h3>
+                        <p>主力连续合约 5 年走势、历史分位与关键区间。</p>
+                        <strong>进入详情 ›</strong>
+                    </div>
+                </a>
+                <a class="function-card function-card--light" href="terminal.html#ratio">
+                    <div class="function-card-copy">
+                        <span>盈亏信号</span>
+                        <h3>猪粮比跟踪</h3>
+                        <p>期货口径猪粮比，叠加 5:1 / 6:1 / 9:1 预警带。</p>
+                        <strong>进入详情 ›</strong>
+                    </div>
+                </a>
+                <a class="function-card function-card--dark" href="terminal.html#feed">
+                    <div class="function-card-copy">
+                        <span>成本端</span>
+                        <h3>饲料成本指数</h3>
+                        <p>玉米 60% + 豆粕 40% 合成，观察成本端对产能去化的推力。</p>
+                        <strong>进入详情 ›</strong>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <footer class="home-footer">
+            <p>数据截至 <span id="footer-asof">--</span> · 每日收盘后自动更新 · 本站为个人研究用途，不构成投资建议</p>
+        </footer>
+    </main>
+    <script src="home.js"></script>
+    <script>
+        if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+            navigator.serviceWorker.register("sw.js");
+        }
+    </script>
+</body>
+</html>
