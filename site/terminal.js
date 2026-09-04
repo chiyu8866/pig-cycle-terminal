@@ -115,7 +115,7 @@
         const near = d.curve[0].price;
         const labels = d.curve.map(r => r.contract.replace("LH", ""));
         const chgs = d.curve.map(r => +(((r.price / near) - 1) * 100).toFixed(2));
-        const shape = chgs[chs.length - 1] > 1 ? "远月升水（Contango）" : chgs[chs.length - 1] < -1 ? "远月贴水（Backwardation）" : "近平水";
+        const shape = chgs[chgs.length - 1] > 1 ? "远月升水（Contango）" : chgs[chgs.length - 1] < -1 ? "远月贴水（Backwardation）" : "近平水";
         chartCurve.setOption({
             tooltip: { ...tooltipBase, formatter: (ps) => {
                 const i = ps[0].dataIndex;

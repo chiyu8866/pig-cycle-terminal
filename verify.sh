@@ -29,24 +29,26 @@ for p in index.html terminal.html capacity.html notes.html home.css terminal.css
   if [ "$code" = 200 ]; then echo "  ok  $p"; else echo "  FAIL $p -> $code"; FAIL=1; fi
 done
 
-echo "== 4. headless render"
-for page in index.html terminal.html; do
+echo "== 4. headless render (4 pages)"
+check_page() {
+  local page="$1" min_canvas="$2" grep_pat="$3" label="$4"
   dom=$("$CHROME" --headless --disable-gpu --virtual-time-budget=6000 --dump-dom "http://127.0.0.1:8765/$page" 2>/dev/null)
   canvases=$(printf '%s' "$dom" | grep -c "<canvas")
-  if [ "$page" = index.html ]; then
-    if printf '%s' "$dom" | grep -q 'id="hero-lh-price"[^<]*元/吨'; then
-      echo "  ok  index price filled ($canvases canvas)"
-    else
-      echo "  FAIL index not filled"; FAIL=1
-    fi
+  if [ "$canvases" -ge "$min_canvas" ] && printf '%s' "$dom" | grep -q "$grep_pat"; then
+    echo "  ok  $label ($canvases canvas)"
   else
-    if [ "$canvases" -ge 3 ]; then
-      echo "  ok  terminal charts rendered ($canvases canvas)"
-    else
-      echo "  FAIL terminal canvas=$canvases"; FAIL=1
-    fi
+    echo "  FAIL $label canvas=$canvases"; return 1
   fi
-done
+}
+check_page index.html 0 'id="hero-lh-price"[^<]*元/吨' "index price filled" || FAIL=1
+check_page terminal.html 5 'id="terminal-note"[^>]*>[^<]\{5,\}' "terminal 5 charts" || FAIL=1
+check_page capacity.html 1 'id="capacity-meta">[^<]\{5,\}' "capacity chart" || FAIL=1
+dom_notes=$("$CHROME" --headless --disable-gpu --virtual-time-budget=4000 --dump-dom "http://127.0.0.1:8765/notes.html" 2>/dev/null)
+if printf '%s' "$dom_notes" | grep -q 'id="note-001"' && printf '%s' "$dom_notes" | grep -q 'id="note-002"'; then
+  echo "  ok  notes two articles"
+else
+  echo "  FAIL notes"; FAIL=1
+fi
 
 echo
 if [ $FAIL -eq 0 ]; then echo "RESULT: PASS"; else echo "RESULT: FAIL"; fi
