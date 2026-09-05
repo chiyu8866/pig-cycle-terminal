@@ -2,7 +2,7 @@
 # PIGWATCH 每日自动抓数 + 提交(launchd 周一至五 17:00 调用)
 set -uo pipefail
 
-PROJ="$HOME/Desktop/pig-cycle-terminal"
+PROJ="$HOME/pig-cycle-terminal"
 PY="$HOME/miniconda3/envs/ashare/bin/python"
 GIT=/usr/bin/git
 LOG="$PROJ/.logs/daily_update.log"
